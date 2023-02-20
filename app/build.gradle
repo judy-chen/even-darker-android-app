@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.test'
+    namespace 'com.example.evendarker'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.test"
+        applicationId "com.example.evendarker"
         minSdk 24
         targetSdk 33
         versionCode 1

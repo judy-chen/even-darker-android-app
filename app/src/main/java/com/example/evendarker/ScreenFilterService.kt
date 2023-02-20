@@ -10,10 +10,8 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 
 class ScreenFilterService: Service() {
-    val STATE_ACTIVE: Int = 1
-    val STATE_INACTIVE: Int = 0
-    var STATE: Int = STATE_INACTIVE
 
+    private lateinit var sharedMemory: SharedMemory
     private lateinit var screenFilter: View
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -23,8 +21,9 @@ class ScreenFilterService: Service() {
     override fun onCreate() {
         super.onCreate()
 
+        sharedMemory = SharedMemory(this)
         screenFilter = LinearLayout(this)
-        screenFilter.setBackgroundColor(Color.BLACK)
+        screenFilter.setBackgroundColor(sharedMemory.getColor())
 
         val layoutParams: WindowManager.LayoutParams = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -44,10 +43,18 @@ class ScreenFilterService: Service() {
         super.onDestroy()
         val windowManager:WindowManager = (getSystemService(WINDOW_SERVICE) as WindowManager?)!!
         windowManager.removeView(screenFilter)
+        STATE = STATE_INACTIVE
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         screenFilter.setBackgroundColor(Color.BLACK)
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    companion object {
+        val STATE_ACTIVE: Int = 1
+        val STATE_INACTIVE: Int = 0
+        var STATE: Int = STATE_INACTIVE
+
     }
 }
