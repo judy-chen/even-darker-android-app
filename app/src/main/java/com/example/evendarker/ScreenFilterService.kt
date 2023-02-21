@@ -47,7 +47,7 @@ class ScreenFilterService: Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        screenFilter.setBackgroundColor(Color.BLACK)
+        screenFilter.setBackgroundColor(sharedMemory.getColor())
         return super.onStartCommand(intent, flags, startId)
     }
 

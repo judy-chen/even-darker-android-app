@@ -33,6 +33,7 @@
         android:thumbTint="@color/blue"
         android:progressBackgroundTint="@color/gold"
         android:progressTint="@color/gold"
+        android:max="255"
         />
 
     <ToggleButton
