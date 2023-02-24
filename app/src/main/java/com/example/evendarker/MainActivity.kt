@@ -1,17 +1,25 @@
 package com.example.evendarker
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.View
+import android.provider.Settings
 import android.widget.SeekBar
 import com.example.evendarker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding : ActivityMainBinding
     private lateinit var sharedMemory: SharedMemory
     private lateinit var countDownTimer: CountDownTimer
+
+    private val actionManageOverlayRequestCode = 1234;
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
         setContentView(view)
         setListeners()
+        if(!isPermissionGranted()) createAlert()?.show()
     }
 
     private fun setListeners() {
@@ -47,10 +56,11 @@ class MainActivity : AppCompatActivity() {
                     stopService(i)
                 }
 
-                else {
+                else if(isPermissionGranted()){
                     startService(i)
                 }
-                refresh()
+                else createAlert()?.show()
+                refresh() // corrects toggle state
             }
         }
     }
@@ -81,18 +91,67 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refresh(){
-//        countDownTimer.cancel()
-//        countDownTimer = object: CountDownTimer(100,100){
-//            override fun onTick(millisUntilFinished: Long) {
-//
-//            }
-//
-//            override fun onFinish() {
-//                binding.toggleButton.isChecked = (ScreenFilterService.STATE == ScreenFilterService.STATE_ACTIVE)
-//            }
-//
-//        }
-//
-//        countDownTimer.start()
+        countDownTimer.cancel()
+        countDownTimer = object: CountDownTimer(100,100){
+            override fun onTick(millisUntilFinished: Long) {
+
+            }
+
+            override fun onFinish() {
+                binding.toggleButton.isChecked = (ScreenFilterService.STATE == ScreenFilterService.STATE_ACTIVE)
+            }
+
+        }
+
+        countDownTimer.start()
+    }
+
+    private fun isPermissionGranted(): Boolean {
+        if (Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(this))
+            return true
+        return false
+    }
+
+    private fun askDrawPermission(){
+        val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
+        startActivityForResult(intent, actionManageOverlayRequestCode);
+    }
+
+    fun createAlert(): AlertDialog? {
+
+        val builder: AlertDialog.Builder? = this.let {
+            AlertDialog.Builder(it)
+        }
+
+        builder?.setMessage(R.string.dialog_message)?.setTitle(R.string.dialog_title)
+
+        builder?.apply {
+            setPositiveButton(R.string.ok,
+                DialogInterface.OnClickListener { dialog, id ->
+                    // User clicked OK button
+                    askDrawPermission()
+                })
+            setNegativeButton(R.string.cancel,
+                DialogInterface.OnClickListener { dialog, id ->
+                    // User cancelled the dialog
+                })
+        }
+
+        val dialog: AlertDialog? = builder?.create()
+        return dialog
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == actionManageOverlayRequestCode) {
+            // Check if the app get the permission
+            if (Settings.canDrawOverlays(this)) {
+                // Run your logic with newly-granted permission.
+            } else {
+                // Permission not granted. Change your logic accordingly.
+                // App can re-request permission anytime.
+            }
+        }
     }
 }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Even Darker</string>
+    <string name="dialog_title">Permission Needed</string>
+    <string name="dialog_message">Even Darker needs permission to draw over other apps.\n\nEnable \"Allow display over other apps.\"</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 </resources>
