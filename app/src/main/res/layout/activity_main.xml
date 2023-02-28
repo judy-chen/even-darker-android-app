@@ -14,41 +14,52 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Opacity"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
         android:id="@+id/seek_opacity"
-        android:layout_width="366dp"
+        android:layout_width="0dp"
         android:layout_height="26dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/opacity_text"
-        app:layout_constraintTop_toBottomOf="@+id/opacity_text"
-        app:layout_wrapBehaviorInParent="vertical_only"
-        android:thumbTint="@color/blue"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:max="255"
         android:progressBackgroundTint="@color/gold"
         android:progressTint="@color/gold"
-        android:max="255"
-        />
+        android:thumbTint="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.206"
+        app:layout_constraintStart_toStartOf="@+id/opacity_text"
+        app:layout_constraintTop_toBottomOf="@+id/opacity_text"
+        app:layout_wrapBehaviorInParent="vertical_only" />
 
     <ToggleButton
         android:id="@+id/toggleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ToggleButton"
+        android:textOff="ON"
+        android:textOn="OFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seek_opacity"
-        app:layout_constraintVertical_bias="0.054"
-        android:textOff="ON"
-        android:textOn="OFF"/>
+        app:layout_constraintTop_toBottomOf="@+id/shake_switch"
+        app:layout_constraintVertical_bias="0.153" />
+
+    <Switch
+        android:id="@+id/shake_switch"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="16dp"
+        android:text="Enable Shake to turn off filter"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="@+id/seek_opacity"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/seek_opacity"
+        app:layout_constraintTop_toBottomOf="@+id/seek_opacity" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,18 @@
 package com.example.evendarker
 
+import ShakeEventListener
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.hardware.SensorManager
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.provider.Settings
 import android.widget.SeekBar
+import androidx.appcompat.app.AppCompatActivity
 import com.example.evendarker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -38,10 +41,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         setListeners()
         if(!isPermissionGranted()) createAlert()?.show()
+
     }
 
     private fun setListeners() {
-
+        val i = Intent(this@MainActivity, ScreenFilterService::class.java)
         binding.apply {
             val seekbarList: List<SeekBar> =
                 listOf(seekOpacity)
@@ -51,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             toggleButton.setOnClickListener {
-                val i = Intent(this@MainActivity, ScreenFilterService::class.java)
+
                 if (ScreenFilterService.STATE == ScreenFilterService.STATE_ACTIVE) {
                     stopService(i)
                 }
@@ -62,6 +66,12 @@ class MainActivity : AppCompatActivity() {
                 else createAlert()?.show()
                 refresh() // corrects toggle state
             }
+        }
+
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        ShakeEventListener(this,sensorManager){
+            println("shake!")
+            stopService(i)
         }
     }
 
