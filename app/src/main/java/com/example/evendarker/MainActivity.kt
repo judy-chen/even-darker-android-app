@@ -66,12 +66,23 @@ class MainActivity : AppCompatActivity() {
                 else createAlert()?.show()
                 refresh() // corrects toggle state
             }
+
+            shakeSwitch.setOnCheckedChangeListener { it, isChecked ->
+                if(isChecked)
+                    sharedMemory.setShake(1)
+                else
+                    sharedMemory.setShake(0)
+            }
         }
 
         val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         ShakeEventListener(this,sensorManager){
             println("shake!")
-            stopService(i)
+            if(sharedMemory.getShake() == 1){
+                stopService(i)
+                refresh()
+            }
+
         }
     }
 

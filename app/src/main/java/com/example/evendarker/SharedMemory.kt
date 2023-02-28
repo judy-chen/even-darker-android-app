@@ -19,8 +19,16 @@ class SharedMemory(context: Context) {
         return getValue("alpha",0x33)
     }
 
+    fun getShake(): Int{
+        return getValue("shake",0)
+    }
+
     fun setAlpha(value: Int){
         return setValue("alpha",value)
+    }
+
+    fun setShake(value: Int){
+        return setValue("shake",value)
     }
 
     fun getColor(): Int {
