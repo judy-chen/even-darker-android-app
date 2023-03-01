@@ -19,8 +19,30 @@ class SharedMemory(context: Context) {
         return getValue("alpha",0x33)
     }
 
+    fun getRed(): Int{
+        return getValue("red",0)
+    }
+    fun getGreen(): Int{
+        return getValue("green",0)
+    }
+
+    fun getBlue(): Int{
+        return getValue("blue",0)
+    }
+
     fun getShake(): Int{
         return getValue("shake",0)
+    }
+
+    fun setRed(value: Int){
+        return setValue("red",value)
+    }
+    fun setGreen(value: Int){
+        return setValue("green",value)
+    }
+
+    fun setBlue(value: Int){
+        return setValue("blue",value)
     }
 
     fun setAlpha(value: Int){
@@ -32,6 +54,10 @@ class SharedMemory(context: Context) {
     }
 
     fun getColor(): Int {
-        return Color.argb(getAlpha(),0,0,0)
+        return Color.argb(getAlpha(),getRed(),getGreen(),getBlue())
+    }
+
+    fun setTemperature(value: Int) {
+        setValue("red",value)
     }
 }

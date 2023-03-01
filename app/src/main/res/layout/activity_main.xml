@@ -21,12 +21,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
-        android:id="@+id/seek_opacity"
+        android:id="@+id/opacity_seek"
         android:layout_width="0dp"
-        android:layout_height="26dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
-        android:max="255"
+        android:max="230"
         android:progressBackgroundTint="@color/gold"
         android:progressTint="@color/gold"
         android:thumbTint="@color/blue"
@@ -53,14 +53,34 @@
     <Switch
         android:id="@+id/shake_switch"
         android:layout_width="0dp"
-        android:layout_height="25dp"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:text="Enable Shake to turn off filter"
         android:textAlignment="viewStart"
-        app:layout_constraintEnd_toEndOf="@+id/seek_opacity"
+        app:layout_constraintEnd_toEndOf="@+id/opacity_seek"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/seek_opacity"
-        app:layout_constraintTop_toBottomOf="@+id/seek_opacity" />
+        app:layout_constraintStart_toStartOf="@+id/opacity_seek"
+        app:layout_constraintTop_toBottomOf="@+id/temperature_seek" />
+
+    <TextView
+        android:id="@+id/temp_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Color Temperature"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintStart_toStartOf="@+id/opacity_seek"
+        app:layout_constraintTop_toBottomOf="@+id/opacity_seek" />
+
+    <SeekBar
+        android:id="@+id/temperature_seek"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:max="255"
+        app:layout_constraintEnd_toEndOf="@+id/opacity_seek"
+        app:layout_constraintStart_toStartOf="@+id/temp_text"
+        app:layout_constraintTop_toBottomOf="@+id/temp_text" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

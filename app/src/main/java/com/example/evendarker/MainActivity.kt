@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         val i = Intent(this@MainActivity, ScreenFilterService::class.java)
         binding.apply {
             val seekbarList: List<SeekBar> =
-                listOf(seekOpacity)
+                listOf(opacitySeek,temperatureSeek)
 
             for (item in seekbarList) {
                 item.setOnSeekBarChangeListener(changeListener())
@@ -93,7 +93,11 @@ class MainActivity : AppCompatActivity() {
                 progress: Int,
                 fromUser: Boolean
             ) {
-                sharedMemory.setAlpha(binding.seekOpacity.progress)
+                if(seekBar?.id == binding.opacitySeek.id)
+                    sharedMemory.setAlpha(progress)
+
+                if(seekBar?.id == binding.temperatureSeek.id)
+                    sharedMemory.setTemperature(progress)
 
                 if(ScreenFilterService.STATE == ScreenFilterService.STATE_ACTIVE){
                     val i = Intent(this@MainActivity,ScreenFilterService:: class.java )
@@ -147,11 +151,11 @@ class MainActivity : AppCompatActivity() {
         builder?.setMessage(R.string.dialog_message)?.setTitle(R.string.dialog_title)
 
         builder?.apply {
-            setPositiveButton(R.string.ok,
-                DialogInterface.OnClickListener { dialog, id ->
-                    // User clicked OK button
-                    askDrawPermission()
-                })
+            setPositiveButton(R.string.ok
+            ) { dialog, id ->
+                // User clicked OK button
+                askDrawPermission()
+            }
             setNegativeButton(R.string.cancel,
                 DialogInterface.OnClickListener { dialog, id ->
                     // User cancelled the dialog
