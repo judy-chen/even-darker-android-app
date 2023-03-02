@@ -3,7 +3,6 @@ package com.example.evendarker
 import ShakeEventListener
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.hardware.SensorManager
 import android.net.Uri
@@ -21,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedMemory: SharedMemory
     private lateinit var countDownTimer: CountDownTimer
 
-    private val actionManageOverlayRequestCode = 1234;
+    private val actionManageOverlayRequestCode = 1234
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 refresh() // corrects toggle state
             }
 
-            shakeSwitch.setOnCheckedChangeListener { it, isChecked ->
+            shakeSwitch.setOnCheckedChangeListener { _, isChecked ->
                 if(isChecked)
                     sharedMemory.setShake(1)
                 else
@@ -139,31 +138,32 @@ class MainActivity : AppCompatActivity() {
 
     private fun askDrawPermission(){
         val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
-        startActivityForResult(intent, actionManageOverlayRequestCode);
+        startActivityForResult(intent, actionManageOverlayRequestCode)
     }
 
-    fun createAlert(): AlertDialog? {
+    private fun createAlert(): AlertDialog? {
 
-        val builder: AlertDialog.Builder? = this.let {
+        val builder: AlertDialog.Builder = this.let {
             AlertDialog.Builder(it)
         }
 
-        builder?.setMessage(R.string.dialog_message)?.setTitle(R.string.dialog_title)
+        builder.setMessage(R.string.dialog_message)?.setTitle(R.string.dialog_title)
 
-        builder?.apply {
-            setPositiveButton(R.string.ok
-            ) { dialog, id ->
+        builder.apply {
+            setPositiveButton(
+                R.string.ok
+            ) { _, _ ->
                 // User clicked OK button
                 askDrawPermission()
             }
-            setNegativeButton(R.string.cancel,
-                DialogInterface.OnClickListener { dialog, id ->
-                    // User cancelled the dialog
-                })
+            setNegativeButton(
+                R.string.cancel
+            ) { _, _ ->
+                // User cancelled the dialog
+            }
         }
 
-        val dialog: AlertDialog? = builder?.create()
-        return dialog
+        return builder.create()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

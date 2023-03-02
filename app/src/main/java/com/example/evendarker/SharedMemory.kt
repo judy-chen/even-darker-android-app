@@ -58,6 +58,10 @@ class SharedMemory(context: Context) {
     }
 
     fun setTemperature(value: Int) {
-        setValue("red",value)
+        val green =  0.42 * value
+        setRed(value)
+        setGreen(green.toInt())
+
+
     }
 }
