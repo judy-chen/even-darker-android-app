@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".ScreenFilterService"
+            android:name=".services.ScreenFilterService"
             android:enabled="true"
             android:exported="true"/>
     </application>

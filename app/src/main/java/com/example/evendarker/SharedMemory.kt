@@ -15,6 +15,13 @@ class SharedMemory(context: Context) {
         return sharedPref.edit().putInt(key,value).apply()
     }
 
+    private fun getString(key:String, value:String): String?{
+        return sharedPref.getString(key, value)
+    }
+    private fun setString(key:String, value:String){
+        return sharedPref.edit().putString(key, value).apply()
+    }
+
     fun getAlpha(): Int{
         return getValue("alpha",0x33)
     }
@@ -35,22 +42,22 @@ class SharedMemory(context: Context) {
     }
 
     fun setRed(value: Int){
-        return setValue("red",value)
+        setValue("red",value)
     }
     fun setGreen(value: Int){
-        return setValue("green",value)
+        setValue("green",value)
     }
 
     fun setBlue(value: Int){
-        return setValue("blue",value)
+        setValue("blue",value)
     }
 
     fun setAlpha(value: Int){
-        return setValue("alpha",value)
+        setValue("alpha",value)
     }
 
     fun setShake(value: Int){
-        return setValue("shake",value)
+        setValue("shake",value)
     }
 
     fun getColor(): Int {
@@ -61,7 +68,20 @@ class SharedMemory(context: Context) {
         val green =  0.42 * value
         setRed(value)
         setGreen(green.toInt())
+    }
 
+    fun getResumeTime(value: String): String? {
+        return getString("resume_time",value)
+    }
 
+    fun getPauseTime(value: String): String? {
+        return getString("pause_time",value)
+    }
+    fun setResumeTime(value: String) {
+        setString("resume_time",value)
+    }
+
+    fun setPauseTime(value: String) {
+        setString("pause_time",value)
     }
 }

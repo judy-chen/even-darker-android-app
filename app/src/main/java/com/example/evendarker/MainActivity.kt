@@ -10,9 +10,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.provider.Settings
+import android.view.View
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.evendarker.databinding.ActivityMainBinding
+import com.example.evendarker.fragments.TimePickerFragment
+import com.example.evendarker.services.ScreenFilterService
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,11 +50,15 @@ class MainActivity : AppCompatActivity() {
     private fun setListeners() {
         val i = Intent(this@MainActivity, ScreenFilterService::class.java)
         binding.apply {
-            val seekbarList: List<SeekBar> =
-                listOf(opacitySeek,temperatureSeek)
+            val viewList: List<View> =
+                listOf(opacitySeek,temperatureSeek,resumeLayout,pauseLayout)
 
-            for (item in seekbarList) {
-                item.setOnSeekBarChangeListener(changeListener())
+
+            for (item in viewList) {
+                when(item){
+                    is SeekBar -> item.setOnSeekBarChangeListener(seekBarListener())
+                    is ConstraintLayout -> item.setOnClickListener(timeListener())
+                }
             }
 
             toggleButton.setOnClickListener {
@@ -72,6 +80,8 @@ class MainActivity : AppCompatActivity() {
                 else
                     sharedMemory.setShake(0)
             }
+
+
         }
 
         val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -85,7 +95,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun changeListener(): SeekBar.OnSeekBarChangeListener{
+    private fun timeListener(): View.OnClickListener? {
+        return View.OnClickListener {
+            TimePickerFragment(binding,it,sharedMemory).show(supportFragmentManager, "timePicker")
+        }
+    }
+
+    private fun seekBarListener(): SeekBar.OnSeekBarChangeListener{
         return object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(
                 seekBar: SeekBar?,
@@ -99,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                     sharedMemory.setTemperature(progress)
 
                 if(ScreenFilterService.STATE == ScreenFilterService.STATE_ACTIVE){
-                    val i = Intent(this@MainActivity,ScreenFilterService:: class.java )
+                    val i = Intent(this@MainActivity, ScreenFilterService:: class.java )
                     startService(i)
 
                     binding.toggleButton.isChecked = (ScreenFilterService.STATE == ScreenFilterService.STATE_ACTIVE)

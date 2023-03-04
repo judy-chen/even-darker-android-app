@@ -1,9 +1,8 @@
-package com.example.evendarker
+package com.example.evendarker.services
 
 import android.app.Service
 import android.content.Intent
 import android.graphics.PixelFormat
-import android.graphics.Point
 import android.os.Build
 import android.os.IBinder
 import android.util.DisplayMetrics
@@ -11,6 +10,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.WindowManager.LayoutParams
 import android.widget.LinearLayout
+import com.example.evendarker.SharedMemory
 
 class ScreenFilterService: Service (){
 
