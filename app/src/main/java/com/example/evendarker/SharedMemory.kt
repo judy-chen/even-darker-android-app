@@ -70,12 +70,12 @@ class SharedMemory(context: Context) {
         setGreen(green.toInt())
     }
 
-    fun getResumeTime(value: String): String? {
-        return getString("resume_time",value)
+    fun getResumeTime(): String? {
+        return getString("resume_time","11:00 PM")
     }
 
-    fun getPauseTime(value: String): String? {
-        return getString("pause_time",value)
+    fun getPauseTime(): String? {
+        return getString("pause_time","8:00 AM")
     }
     fun setResumeTime(value: String) {
         setString("resume_time",value)

@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         }
         setContentView(view)
         setListeners()
+        setScheduleTime()
+        binding.toggleButton.isChecked = (ScreenFilterService.STATE == ScreenFilterService.STATE_ACTIVE)
         if(!isPermissionGranted()) createAlert()?.show()
 
     }
@@ -180,6 +182,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         return builder.create()
+    }
+
+    fun setScheduleTime(){
+        binding.pauseTime.text = sharedMemory.getPauseTime()
+        binding.resumeTime.text = sharedMemory.getResumeTime()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
