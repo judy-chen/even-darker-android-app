@@ -43,10 +43,20 @@ class MainActivity : AppCompatActivity() {
         }
         setContentView(view)
         setListeners()
-        setScheduleTime()
-        binding.toggleButton.isChecked = (ScreenFilterService.STATE == ScreenFilterService.STATE_ACTIVE)
+        setState()
+
         if(!isPermissionGranted()) createAlert()?.show()
 
+    }
+
+    // Retrieve state of UI from shared memory (preferences)
+    fun setState(){
+        setScheduleTime()
+        binding.apply{
+            toggleButton.isChecked = (ScreenFilterService.STATE == ScreenFilterService.STATE_ACTIVE)
+            opacitySeek.progress = sharedMemory.getAlpha()
+            temperatureSeek.progress = sharedMemory.getRed()
+        }
     }
 
     private fun setListeners() {
